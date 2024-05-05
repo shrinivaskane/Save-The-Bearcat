@@ -48,7 +48,7 @@ public class GameScreen extends BaseScreen {
     private final Sound dieSound;
     private final Music backgroundMusic;
     private final Vector3 position;
-//    private final Image background;
+    //    private final Image background;
     private float lastSpawnPosition = 0;
     private final EntityFactory entityFactory;
     private final TextButton scoreButton;
@@ -201,12 +201,6 @@ public class GameScreen extends BaseScreen {
                 // Display "Won the game" message and proceed to game over screen
                 displayWonMessage();
                 gameWon = true; // Set game won flag
-                // Center the camera on the "Won the game" label
-//                Camera camera = stage.getCamera();
-//                Vector3 labelPosition = new Vector3(wonLabel.getX() + wonLabel.getWidth() / 2, wonLabel.getY() + wonLabel.getHeight() / 2, 0);
-//                camera.position.set(labelPosition);
-//                camera.update();
-
 
                 // Proceed to game over screen after a delay
                 stage.addAction(
@@ -255,7 +249,7 @@ public class GameScreen extends BaseScreen {
         int offset = 6;
         lastSpawnPosition = 0;
         float obstacleSpacing = 0;
-        switch(currentLevel) {
+        switch (currentLevel) {
             case 1:
                 obstacleSpacing = 12;
                 break;
@@ -281,8 +275,8 @@ public class GameScreen extends BaseScreen {
 
         for (int i = 1; i <= 4; i++) {
             if (rand.nextBoolean()) {
-                if(playerPosition.x + offset + i*obstacleSpacing > lastSpawnPosition) {
-                    lastSpawnPosition = playerPosition.x + offset + i*obstacleSpacing;
+                if (playerPosition.x + offset + i * obstacleSpacing > lastSpawnPosition) {
+                    lastSpawnPosition = playerPosition.x + offset + i * obstacleSpacing;
                 }
                 floorList.add(entityFactory.createFloor(world, playerPosition.x + offset + i * obstacleSpacing, 5 + rand.nextInt(5) + 4, 3, natureFloorTexture, overfloorTexture));
             }
@@ -301,8 +295,9 @@ public class GameScreen extends BaseScreen {
                 additionalFloorCreated = true;
                 float additionalFloorHeight = 4;
                 float additionalFloorWidth = 3 + rand.nextInt(6);
-                if(lastSpawnPosition > playerPosition.x + offset + rand.nextInt(2)+ i) lastSpawnPosition = playerPosition.x + offset + rand.nextInt(2)+ i;
-                FloorEntity additionalFloor = entityFactory.createFloor(world, playerPosition.x + offset + rand.nextInt(2)+ i * obstacleSpacing, additionalFloorWidth, additionalFloorHeight, natureFloorTexture, overfloorTexture);
+                if (lastSpawnPosition > playerPosition.x + offset + rand.nextInt(2) + i)
+                    lastSpawnPosition = playerPosition.x + offset + rand.nextInt(2) + i;
+                FloorEntity additionalFloor = entityFactory.createFloor(world, playerPosition.x + offset + rand.nextInt(2) + i * obstacleSpacing, additionalFloorWidth, additionalFloorHeight, natureFloorTexture, overfloorTexture);
 //                floorList.add(additionalFloor);
                 stage.addActor(additionalFloor);
             }
@@ -313,7 +308,7 @@ public class GameScreen extends BaseScreen {
 
             lastSpawnPosition = xPosition;
             SpikeEntity spike;
-            if(rand.nextBoolean()) {
+            if (rand.nextBoolean()) {
                 spike = entityFactory.createSpikes(world, xPosition, 4 - 0.15f, natureSpikeTexture);
             } else {
                 spike = entityFactory.createSpikes(world, xPosition, 3 - 0.15f, natureSpikeTexture);
@@ -332,14 +327,11 @@ public class GameScreen extends BaseScreen {
             }
         }
 
-        if(currentLevel == 2 || currentLevel == 3) {
+        if (currentLevel == 2 || currentLevel == 3) {
 
 
             for (int i = 1; i <= 2 + rand.nextInt(3); i++) {
                 float xPosition = playerPosition.x + 15 + rand.nextInt(offset) + (i * obstacleSpacing);
-
-
-                SpikeEntity spike;
 
                 if (rand.nextFloat() < 0.8f) {
                     lastSpawnPosition = xPosition;
@@ -394,7 +386,7 @@ public class GameScreen extends BaseScreen {
         // Inside the updateCamera method, after updating the position of the score button
 // Update the position of the won label if it's visible
 //        if (wonLabel.isVisible()) {
-            wonLabel.setPosition(camera.position.x - wonLabel.getWidth() / 2, camera.position.y - wonLabel.getHeight() / 2);
+        wonLabel.setPosition(camera.position.x - wonLabel.getWidth() / 2, camera.position.y - wonLabel.getHeight() / 2);
 //        }
 
     }
@@ -491,7 +483,7 @@ public class GameScreen extends BaseScreen {
             // Check collision with bonus points
             if (areCollided(contact, "bonus")) {
                 // Increment score by 100
-                if(currentLevel == 2) {
+                if (currentLevel == 2) {
                     score += 100;
                 } else {
                     score += 200;
@@ -520,9 +512,8 @@ public class GameScreen extends BaseScreen {
 //                        break;
 //                    }
 //                    bonus.detach();
-                }
             }
-
+        }
 
 
         @Override
