@@ -242,8 +242,8 @@ public class GameScreen extends BaseScreen {
                 }
                 floorList.add(entityFactory.createFloor(world, playerPosition.x + offset + i * obstacleSpacing, 5 + rand.nextInt(5) + 4, 3, natureFloorTexture, overfloorTexture));
             }
-            for (FloorEntity floor : floorList) {
-                stage.addActor(floor);
+            for (FloorEntity charat : floorList) {
+                stage.addActor(charat);
             }
         }
         floorList.clear();
@@ -329,7 +329,7 @@ public class GameScreen extends BaseScreen {
         targetX = Math.max(minX, Math.min(targetX, maxX));
         targetY = Math.max(minY, Math.min(targetY, maxY));
 
-        float lerpFactor = 0.5f;
+        float lerpFactor = 0.6f;
         cameraPosition.x += (targetX - cameraPosition.x) * lerpFactor;
         cameraPosition.y += (targetY - cameraPosition.y) * lerpFactor;
 
