@@ -21,7 +21,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -48,28 +47,19 @@ public class GameScreen extends BaseScreen {
     private final Sound dieSound;
     private final Music backgroundMusic;
     private final Vector3 position;
-    //    private final Image background;
     private float lastSpawnPosition = 0;
     private final EntityFactory entityFactory;
     private final TextButton scoreButton;
     private int score = 0;
-    private TextButton levelButton;
-    private TextButton wonLabel;
-
-    //private int currentLevel = 1;
-
-    // Add a field to track the current level
+    private final TextButton levelButton;
+    private final TextButton wonLabel;
     private int currentLevel = 1;
-    // Add a field to track the time elapsed
     private float elapsedTime = 0;
-    // Add a field to track if the game is won
     private boolean gameWon = false;
-    private Image backgroundLevel1;
-    private Image backgroundLevel2;
-    private Image backgroundLevel3;
-    private Texture starTexture;
+    private final Image backgroundLevel1;
+    private final Image backgroundLevel2;
+    private final Image backgroundLevel3;
     private final List<BonusEntity> bonusList = new ArrayList<>();
-
     Random rand;
 
     public GameScreen(MainGame game) {
@@ -89,12 +79,10 @@ public class GameScreen extends BaseScreen {
         Texture backgroundLevel2Texture = game.getManager().get("nature_level2.jpg", Texture.class);
         Texture backgroundLevel3Texture = game.getManager().get("nature_level3.jpg", Texture.class);
 
-        // Create images for each background
         backgroundLevel1 = new Image(backgroundLevel1Texture);
         backgroundLevel2 = new Image(backgroundLevel2Texture);
         backgroundLevel3 = new Image(backgroundLevel3Texture);
 
-        // Add them to the stage initially
         stage.addActor(backgroundLevel1);
         stage.addActor(backgroundLevel2);
         stage.addActor(backgroundLevel3);
@@ -112,18 +100,13 @@ public class GameScreen extends BaseScreen {
         scoreButton.setSize(500, 300);
         scoreButton.setPosition(Gdx.graphics.getWidth() - scoreButton.getWidth() - 30, Gdx.graphics.getHeight() - scoreButton.getHeight() - 30);
         stage.addActor(scoreButton);
-        //stage.addActor(scoreButton);
 
-        // Initialize the "Won the game" label
         wonLabel = new TextButton("Won the game!", buttonStyle);
         wonLabel.getLabel().setFontScale(2);
         wonLabel.setSize(600, 400);
         wonLabel.setPosition(stage.getWidth() / 2 - wonLabel.getWidth() / 2, stage.getHeight() / 2 - wonLabel.getHeight() / 2);
-        wonLabel.setVisible(false); // Initially invisible
+        wonLabel.setVisible(false);
         stage.addActor(wonLabel);
-
-        starTexture = game.getManager().get("bonus.png", Texture.class);
-
 
         levelButton = new TextButton("Level: " + currentLevel, buttonStyle);
         levelButton.getLabel().setFontScale(2);
@@ -176,7 +159,6 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
-        // Set initial visibility based on the current level
         updateBackgroundVisibility();
         elapsedTime += delta;
 
@@ -184,19 +166,14 @@ public class GameScreen extends BaseScreen {
             currentLevel++;
 
             if (currentLevel <= 3) {
-                // Update level button text
                 levelButton.setText("Level: " + currentLevel);
-                // Reset elapsed time
                 elapsedTime = 0;
             } else {
-                // Display "Won the game" message and proceed to game over screen
                 displayWonMessage();
-                gameWon = true; // Set game won flag
-
-                // Proceed to game over screen after a delay
+                gameWon = true;
                 stage.addAction(
                         Actions.sequence(
-                                Actions.delay(2.0f), // Adjust delay as needed
+                                Actions.delay(2.0f),
                                 Actions.run(() -> {
                                     game.setScreen(game.gameOverScreen);
                                 })
@@ -221,7 +198,6 @@ public class GameScreen extends BaseScreen {
         if (player.isAlive()) {
             score++;
             scoreButton.setText("Score: " + score);
-            //levelButton.setText("Level: " + currentLevel);
         }
 
         float spawnThreshold = 10;
@@ -241,24 +217,19 @@ public class GameScreen extends BaseScreen {
         lastSpawnPosition = 0;
         float obstacleSpacing = 0;
         switch (currentLevel) {
-            case 1:
-                obstacleSpacing = 12;
-                break;
-            case 2:
+            case 1 -> obstacleSpacing = 12;
+            case 2 -> {
                 obstacleSpacing = 8;
                 offset = 5;
-//                offset = 3;
-                break;
-            case 3:
+            }
+            case 3 -> {
                 obstacleSpacing = 5;
-//                offset = 2;
                 offset = 3;
-                break;
+            }
         }
 
 
         Vector2 playerPosition = player.getBody().getPosition();
-
         Texture natureFloorTexture = game.getManager().get("nature_floor.png", Texture.class);
         Texture overfloorTexture = game.getManager().get("nature_overfloor.png", Texture.class);
         Texture natureSpikeTexture = game.getManager().get("nature_spike.png", Texture.class);
@@ -274,7 +245,6 @@ public class GameScreen extends BaseScreen {
             for (FloorEntity floor : floorList) {
                 stage.addActor(floor);
             }
-//            floorList.add(entityFactory.createFloor(world, playerPosition.x + i * obstacleSpacing * 2, rand.nextInt(3) + 3, 3, natureFloorTexture, overfloorTexture));
         }
         floorList.clear();
 
@@ -289,7 +259,6 @@ public class GameScreen extends BaseScreen {
                 if (lastSpawnPosition > playerPosition.x + offset + rand.nextInt(2) + i)
                     lastSpawnPosition = playerPosition.x + offset + rand.nextInt(2) + i;
                 FloorEntity additionalFloor = entityFactory.createFloor(world, playerPosition.x + offset + rand.nextInt(2) + i * obstacleSpacing, additionalFloorWidth, additionalFloorHeight, natureFloorTexture, overfloorTexture);
-//                floorList.add(additionalFloor);
                 stage.addActor(additionalFloor);
             }
         }
@@ -405,16 +374,6 @@ public class GameScreen extends BaseScreen {
     private class GameContactListener implements ContactListener {
 
         private boolean areCollided(Contact contact, Object userB) {
-//            Object userDataA = contact.getFixtureA().getUserData();
-//            Object userDataB = contact.getFixtureB().getUserData();
-//
-//            if (userDataA == null || userDataB == null) {
-//                return false;
-//            }
-//
-//            return (userDataA.equals("player") && userDataB.equals(userB)) ||
-//                    (userDataA.equals(userB) && userDataB.equals("player"));
-
             Fixture fixtureA = contact.getFixtureA();
             Fixture fixtureB = contact.getFixtureB();
 
@@ -462,38 +421,22 @@ public class GameScreen extends BaseScreen {
                 }
             }
 
-            // Check collision with bonus points
             if (areCollided(contact, "bonus")) {
-                // Increment score by 100
                 if (currentLevel == 2) {
                     score += 100;
                 } else {
                     score += 200;
                 }
                 scoreButton.setText("Score: " + score);
-//                for (BonusEntity bonus : bonusList) {
-//                    stage.getRoot().removeActor(bonus);
-//                }
-                // Remove the collided bonus entity
                 for (BonusEntity bonus : bonusList) {
                     if ((contact.getFixtureA().getBody() == bonus.getBody() && contact.getFixtureB().getBody() == player.getBody()) ||
                             (contact.getFixtureB().getBody() == bonus.getBody() && contact.getFixtureA().getBody() == player.getBody())) {
-                        bonus.detach(); // Remove the Box2D body of the bonus entity
-                        bonus.remove(); // Remove the actor from the stage
-                        bonusList.remove(bonus); // Remove the bonus entity from the list
-                        break; // Exit the loop after removing the bonus entity
+                        bonus.detach();
+                        bonus.remove();
+                        bonusList.remove(bonus);
+                        break;
                     }
                 }
-
-                // Remove bonus points
-
-//                    if ((contact.getFixtureA().getBody() == bonus.getBody() && contact.getFixtureB().getBody() == player.getBody()) ||
-//                            (contact.getFixtureB().getBody() == bonus.getBody() && contact.getFixtureA().getBody() == player.getBody())) {
-//                        bonus.detach();
-//                        bonusList.remove(bonus);
-//                        break;
-//                    }
-//                    bonus.detach();
             }
         }
 
@@ -534,25 +477,15 @@ public class GameScreen extends BaseScreen {
         prefs.flush();
     }
 
-    // Inside the show method
     private void updateBackgroundVisibility() {
-        // Hide all backgrounds first
         backgroundLevel1.setVisible(false);
         backgroundLevel2.setVisible(false);
         backgroundLevel3.setVisible(false);
 
-        // Then show the appropriate background based on the current level
         switch (currentLevel) {
-            case 1:
-                backgroundLevel1.setVisible(true);
-                break;
-            case 2:
-                backgroundLevel2.setVisible(true);
-                break;
-            case 3:
-                backgroundLevel3.setVisible(true);
-                break;
-            // Add more cases if you have more levels
+            case 1 -> backgroundLevel1.setVisible(true);
+            case 2 -> backgroundLevel2.setVisible(true);
+            case 3 -> backgroundLevel3.setVisible(true);
         }
     }
 
