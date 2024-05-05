@@ -85,10 +85,6 @@ public class GameScreen extends BaseScreen {
         dieSound = game.getManager().get("audio/player_dead.ogg");
         backgroundMusic = game.getManager().get("audio/background_sound.ogg");
 
-//        Texture backgroundTexture = game.getManager().get("nature_background.png", Texture.class);
-//        background = new Image(backgroundTexture);
-//        stage.addActor(background);
-        // Load background textures for each level
         Texture backgroundLevel1Texture = game.getManager().get("nature_level1.jpg", Texture.class);
         Texture backgroundLevel2Texture = game.getManager().get("nature_level2.jpg", Texture.class);
         Texture backgroundLevel3Texture = game.getManager().get("nature_level3.jpg", Texture.class);
@@ -128,8 +124,6 @@ public class GameScreen extends BaseScreen {
 
         starTexture = game.getManager().get("bonus.png", Texture.class);
 
-        // Inside the constructor, after setting up the score button
-// Setup the level button
 
         levelButton = new TextButton("Level: " + currentLevel, buttonStyle);
         levelButton.getLabel().setFontScale(2);
@@ -186,9 +180,6 @@ public class GameScreen extends BaseScreen {
         updateBackgroundVisibility();
         elapsedTime += delta;
 
-        // Check if 30 seconds have passeda
-        // Inside the render method, after updating the score button text
-// Check if 5 seconds have passed and the game is not won yet
         if (elapsedTime >= 10 && !gameWon) {
             currentLevel++;
 
