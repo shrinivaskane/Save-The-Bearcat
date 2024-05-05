@@ -136,6 +136,7 @@ public class LeaderboardScreen extends BaseScreen {
         stage.addActor(buttonTable);
     }
 
+    //Rendering delta time
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
