@@ -49,7 +49,6 @@ public class BonusEntity extends Actor {
         world.destroyBody(body);
     }
 
-    // Method to retrieve the Body object
     public Body getBody() {
         return body;
     }
