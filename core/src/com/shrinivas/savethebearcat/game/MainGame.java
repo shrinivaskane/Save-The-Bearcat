@@ -54,6 +54,7 @@ public class MainGame extends Game {
         return manager;
     }
 
+    //Reset game logic 
     public void resetGame() {
         if (menuScreen != null) {
             menuScreen.dispose();
