@@ -369,16 +369,7 @@ public class GameScreen extends BaseScreen {
 
         scoreButton.setPosition(camera.position.x + camera.viewportWidth / 2 - scoreButton.getWidth() - 30, camera.position.y + camera.viewportHeight / 2 - scoreButton.getHeight() - 30);
         levelButton.setPosition(camera.position.x - camera.viewportWidth / 2 + 30, camera.position.y + camera.viewportHeight / 2 - levelButton.getHeight() - 30);
-//        // Center the camera on the "Won the game" label
-//        Camera camera = stage.getCamera();
-//        Vector3 labelPosition = new Vector3(wonLabel.getX() + wonLabel.getWidth() / 2, wonLabel.getY() + wonLabel.getHeight() / 2, 0);
-//        camera.position.set(labelPosition);
-//        camera.update();
-        // Inside the updateCamera method, after updating the position of the score button
-// Update the position of the won label if it's visible
-//        if (wonLabel.isVisible()) {
         wonLabel.setPosition(camera.position.x - wonLabel.getWidth() / 2, camera.position.y - wonLabel.getHeight() / 2);
-//        }
 
     }
 
